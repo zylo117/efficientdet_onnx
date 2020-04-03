@@ -28,7 +28,10 @@ import tensorflow.compat.v2 as tf2
 
 from tensorflow.python.tpu import tpu_function  # pylint:disable=g-direct-tensorflow-import
 
-relu_fn = tf.nn.swish
+# swish will generate IdentityN op that onnx does not support, use equivalent vanilla x * sigmoid(x) instead.
+# relu_fn = tf.nn.swish
+relu_fn = lambda x: x * tf.nn.sigmoid(x)
+
 backbone_relu_fn = relu_fn
 # pylint: disable=logging-format-interpolation
 
