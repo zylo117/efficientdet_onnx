@@ -200,7 +200,7 @@ def det_post_process(params: Dict[Any, Any],
         image_scale=[scales[index]],
         min_score_thresh=min_score_thresh,
         max_boxes_to_draw=max_boxes_to_draw,
-        disable_pyfun=params.get('disable_pyfun'))
+        disable_pyfun=True)
     detections_batch.append(detections)
   return tf.stack(detections_batch, name='detections')
 
@@ -535,6 +535,9 @@ class InferenceDriver(object):
           scales,
           min_score_thresh=kwargs.get('min_score_thresh', 0.2),
           max_boxes_to_draw=kwargs.get('max_boxes_to_draw', 50))
+
+      detections_batch = tf.reshape(detections_batch, [-1, 100, 7])  # give detections_batch a static shape
+
       outputs_np = sess.run(detections_batch)
       # Visualize results.
       for i, output_np in enumerate(outputs_np):
