@@ -332,10 +332,10 @@ def _generate_detections_tf(cls_outputs,
       all_detections_cls = tf.concat([boxes_cls, scores_cls], axis=1)
       top_detection_idx = nms_tf(all_detections_cls, iou_threshold)
       top_detections_cls = tf.gather(all_detections_cls, top_detection_idx)
-    height = top_detections_cls[:, 2] - top_detections_cls[:, 0]
-    width = top_detections_cls[:, 3] - top_detections_cls[:, 1]
-    top_detections_cls = tf.stack([top_detections_cls[:, 0] * image_scale,
-                                   top_detections_cls[:, 1] * image_scale,
+    width = top_detections_cls[:, 2] - top_detections_cls[:, 0]
+    height = top_detections_cls[:, 3] - top_detections_cls[:, 1]
+    top_detections_cls = tf.stack([top_detections_cls[:, 1] * image_scale,
+                                   top_detections_cls[:, 0] * image_scale,
                                    height * image_scale, width * image_scale,
                                    top_detections_cls[:, 4]], axis=-1)
 
